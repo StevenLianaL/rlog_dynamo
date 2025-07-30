@@ -1,0 +1,9 @@
+[package]
+name = "rlog_dynamo"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+aws-config = { version = "1.5.3", features = ["behavior-version-latest"] }
+aws-sdk-s3 = { version = "1.39.0", features = ["behavior-version-latest"] }
+aws-sdk-dynamodb = { version = "1.86.0", features = ["behavior-version-latest"] }
