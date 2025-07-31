@@ -30,10 +30,18 @@ pub fn build_dynamo_client(
     endpoint_url: &str,
 ) -> Client {
     let credentials = Credentials::new(access_key, secret_key, None, None, "manual");
-    let config = Config::builder()
-        .region(Region::new(region.to_string()))
-        .credentials_provider(credentials)
-        .endpoint_url(endpoint_url)
-        .build();
+    let config = if endpoint_url.is_empty() {
+        Config::builder()
+            .region(Region::new(region.to_string()))
+            .credentials_provider(credentials)
+            .build()
+    } else {
+        Config::builder()
+            .region(Region::new(region.to_string()))
+            .credentials_provider(credentials)
+            .endpoint_url(endpoint_url)
+            .build()
+    };
+
     Client::from_conf(config)
 }

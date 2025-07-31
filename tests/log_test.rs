@@ -38,3 +38,21 @@ async fn test_log_access() {
     logger.increase("test", "GET /count 2").await;
     logger.increase("test", "GET /count 2").await;
 }
+
+#[tokio::test]
+async fn test_log_online() {
+    dotenv::dotenv().ok();
+    let access_key = dotenv::var("AWS_ACCESS_KEY").unwrap();
+    let secret_key = dotenv::var("AWS_SECRET_KEY").unwrap();
+    let logger = rlog_dynamo::record::DynamoLogger::new(
+        "rlog",
+        "test",
+        access_key,
+        secret_key,
+        "cn-northwest-1",
+        "",
+        "log_record",
+    );
+
+    info!(&logger, "info online msg", 0);
+}
