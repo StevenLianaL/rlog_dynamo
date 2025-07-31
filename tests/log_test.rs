@@ -15,8 +15,8 @@ async fn test_log_macro() {
         "log_record",
     );
 
-    info!(&logger, "info msg", 0).await;
-    warning!(&logger, "warning msg", 0).await;
-    error!(&logger, "error msg", 0).await;
-    debug!(&logger, "debug msg", 0).await;
+    info!(&logger, "info msg", 0);
+    warning!(&logger, &format!("{}", "warn"), 0);
+    error!(&logger, "error msg", 0);
+    debug!(&logger, "debug msg", 0);
 }

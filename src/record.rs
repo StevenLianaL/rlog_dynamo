@@ -7,7 +7,7 @@ use serde_dynamo::aws_sdk_dynamodb_1::to_item;
 macro_rules! info {
     ($logger:expr, $log:expr, $user:expr) => {{
         let func_name = $crate::func_name!();
-        $logger.info($log, $user, func_name)
+        $logger.info($log, $user, func_name).await
     }};
 }
 
@@ -15,7 +15,7 @@ macro_rules! info {
 macro_rules! warning {
     ($logger:expr, $log:expr, $user:expr) => {{
         let func_name = $crate::func_name!();
-        $logger.warning($log, $user, func_name)
+        $logger.warning($log, $user, func_name).await
     }};
 }
 
@@ -23,7 +23,7 @@ macro_rules! warning {
 macro_rules! error {
     ($logger:expr, $log:expr, $user:expr) => {{
         let func_name = $crate::func_name!();
-        $logger.error($log, $user, func_name)
+        $logger.error($log, $user, func_name).await
     }};
 }
 
@@ -31,7 +31,7 @@ macro_rules! error {
 macro_rules! debug {
     ($logger:expr, $log:expr, $user:expr) => {{
         let func_name = $crate::func_name!();
-        $logger.debug($log, $user, func_name)
+        $logger.debug($log, $user, func_name).await
     }};
 }
 
@@ -66,13 +66,7 @@ impl DynamoLogger {
         }
     }
 
-    pub async fn log_with_level(
-        &self,
-        log: &'static str,
-        user: i64,
-        level: models::LogLevel,
-        func: &str,
-    ) {
+    pub async fn log_with_level(&self, log: &str, user: i64, level: models::LogLevel, func: &str) {
         let record = NewLogRecord::new(self.app, func, log, self.project, user, level);
         let item = to_item(record).unwrap();
         self.client
@@ -84,19 +78,19 @@ impl DynamoLogger {
             .unwrap();
     }
 
-    pub async fn info(&self, log: &'static str, user: i64, func: &str) {
+    pub async fn info(&self, log: &str, user: i64, func: &str) {
         self.log_with_level(log, user, models::LogLevel::Info, func)
             .await;
     }
-    pub async fn warning(&self, log: &'static str, user: i64, func: &str) {
+    pub async fn warning(&self, log: &str, user: i64, func: &str) {
         self.log_with_level(log, user, models::LogLevel::Warning, func)
             .await;
     }
-    pub async fn error(&self, log: &'static str, user: i64, func: &str) {
+    pub async fn error(&self, log: &str, user: i64, func: &str) {
         self.log_with_level(log, user, models::LogLevel::Error, func)
             .await;
     }
-    pub async fn debug(&self, log: &'static str, user: i64, func: &str) {
+    pub async fn debug(&self, log: &str, user: i64, func: &str) {
         self.log_with_level(log, user, models::LogLevel::Debug, func)
             .await;
     }
