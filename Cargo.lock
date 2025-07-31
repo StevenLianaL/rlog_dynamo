@@ -1524,7 +1524,7 @@ dependencies = [
 
 [[package]]
 name = "rlog_dynamo"
-version = "0.3.0"
+version = "0.4.0"
 dependencies = [
  "aws-config",
  "aws-sdk-dynamodb",
