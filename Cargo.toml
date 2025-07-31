@@ -4,6 +4,12 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-aws-config = { version = "1.5.3", features = ["behavior-version-latest"] }
-aws-sdk-s3 = { version = "1.39.0", features = ["behavior-version-latest"] }
+tokio = { version = "1.47.0", features = ["full"] }
+aws-config = { version = "1.8.3", features = ["behavior-version-latest"] }
 aws-sdk-dynamodb = { version = "1.86.0", features = ["behavior-version-latest"] }
+serde = { version = "1.0.203", features = ["derive"] }
+serde_dynamo = { version = "4", features = ["aws-sdk-dynamodb+1"] }
+chrono = { version = "0.4.39", features = ["serde"] }
+
+[dev-dependencies]
+dotenv = "0.15.0"
